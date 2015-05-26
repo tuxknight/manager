@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# miss.py  @  2015-05-26 15:49:05
+# Author: Chufuyuan
+# Mail: chufuyuan@foxmail.com
+#########################################################################
+
+DOCUMENTATION = '''
+---
+module: miss
+version_added: historical
+short_description: analyze log file of miss.out
+description:
+  - This module could get informations about (version uptime session flowrate maxflowrate) of miss.out .
+options:
+  info:
+    required: true
+    choices: [ version, uptime, session, flowrate, maxflowrate ]
+'''
+
+EXAMPLES = '''
+# return the version of miss.out
+- miss: info=version
+'''
+import json
+import commands
+import sys
+import os
+import re
+
+
+def check_miss():
+    """check miss.out and return exit code"""
+    miss_status = commands.getstatusoutput('ps -eaf|grep miss|grep -v grep')
+    status = miss_status[0]
+    code = miss_status[1]
+    return status, miss_pid
+
+
+def get_information(info_type):
+    """analyze information in MISS[:] according to log file."""
+    miss_log_file = '/home/miss/logs/MissRunning.log'
+    if not os.path.isfile(miss_log_file):
+        return {'failed': True, info_type: 'log file not exist.'}
+    MISS = {'version', 'uptime', 'session', 'flowrate', 'maxflowrate'}
+    re_dict = {'version': re.compile(r'\bMISS[0-9a-zA-Z._]*'),
+                'uptime': re.compile(r'\buptime[:0-9a-zA-Z\s]*'),
+                'session': re.compile(r'current\ssessions\scount[:\s0-9]*'),
+                'flowrate': re.compile(r'current\sflowrate[:\s0-9]*[\[\]a-zA-Z]*'),
+                'maxflowrate': re.compile(r'max\sflowrate[:\s0-9]*[\[\]a-zA-Z]*')
+    }
+
+    if info_type not in MISS:
+        return {'failed': True, info_type: 'Not supported.'}
+    try:
+        compiler = re_dict[info_type]
+    except KeyError:
+        return {'failed': True, info_type: 'invalid Key'}
+    with open(miss_log_file, mode='r') as f:
+        '''read log file with buffer = 400bytes'''
+        line = f.readlines(400)
+        re_result = compiler.search(str(line)).group(0).split(':')[-1].strip()
+    result = {'failed': False, info_type: re_result}
+    return result
+
+
+def main():
+    module = AnsibleModule(
+            argument_spec = dict(info = dict(default='version',
+                choices=['version', 'uptime', 'session', 'flowrate', 'maxflowrate']))
+    )
+    params = module.params
+    info_type = params['info']
+    result = get_information(info_type)
+    if result['failed']:
+        module.fail_json(msg='Not supported')
+    else:
+        module.exit_json(changed=True, failed=result['failed'], result=result[info_type])
+
+
+from ansible.module_utils.basic import *
+main()
