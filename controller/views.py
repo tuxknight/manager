@@ -64,7 +64,7 @@ def commit(request):
     executor = ansible_exec.Executor(host, module, arguments)
     results = executor.doExec()
     dark = results['dark']
-    contacted = result['contacted']
+    contacted = results['contacted']
     if host in dark.keys():
         messages = results['dark']
     elif host in contacted.keys():
