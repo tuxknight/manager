@@ -64,10 +64,13 @@ def commit(request):
     executor = ansible_exec.Executor(host, module, arguments)
     results = executor.doExec()
     dark = results['dark']
+    contacted = result['contacted']
     if host in dark.keys():
         messages = results['dark']
-    else:
+    elif host in contacted.keys():
         messages = results['contacted']
+    else:
+        messages = {host: {'msg': 'Unkown Error!'}}
 
     response_html = t.render(
         Context({'host': host,
