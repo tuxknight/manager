@@ -22,27 +22,25 @@ EXAMPLES = '''
 # return the version of miss.out
 - miss: info=version
 '''
-import json
-import commands
-import sys
+#import commands
 import os
 import re
 
 
-def check_miss():
-    """check miss.out and return exit code"""
-    miss_status = commands.getstatusoutput('ps -eaf|grep miss|grep -v grep')
-    status = miss_status[0]
-    code = miss_status[1]
-    return status, miss_pid
+#def check_miss():
+#    """check miss.out and return exit code"""
+#    miss_status = commands.getstatusoutput('ps -eaf|grep miss|grep -v grep')
+#    status = miss_status[0]
+#    code = miss_status[1]
+#    return status, miss_pid
 
 
 def get_information(info_type):
     """analyze information in MISS[:] according to log file."""
-    miss_log_file = '/home/miss/logs/MissRunning.log'
+    miss_log_file = '/home/miss/logs/missRunning.log'
     if not os.path.isfile(miss_log_file):
         return {'failed': True, info_type: 'log file not exist.'}
-    MISS = {'version', 'uptime', 'session', 'flowrate', 'maxflowrate'}
+    MISS = ('version', 'uptime', 'session', 'flowrate', 'maxflowrate')
     re_dict = {'version': re.compile(r'\bMISS[0-9a-zA-Z._]*'),
                 'uptime': re.compile(r'\buptime[:0-9a-zA-Z\s]*'),
                 'session': re.compile(r'current\ssessions\scount[:\s0-9]*'),
@@ -73,7 +71,7 @@ def main():
     info_type = params['info']
     result = get_information(info_type)
     if result['failed']:
-        module.fail_json(msg='Not supported')
+        module.fail_json(msg=result[info_type])
     else:
         module.exit_json(changed=True, failed=result['failed'], result=result[info_type])
 
