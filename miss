@@ -39,7 +39,7 @@ def get_information(info_type):
     """analyze information in MISS[:] according to log file."""
     miss_log_file = '/home/miss/logs/missRunning.log'
     if not os.path.isfile(miss_log_file):
-        return {'failed': True, info_type: 'log file not exist.'}
+        return {'failed': True, info_type: 'log file does not exist.'}
     MISS = ('version', 'uptime', 'session', 'flowrate', 'maxflowrate')
     re_dict = {'version': re.compile(r'\bMISS[0-9a-zA-Z._]*'),
                 'uptime': re.compile(r'\buptime[:0-9a-zA-Z\s]*'),
