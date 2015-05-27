@@ -23,7 +23,7 @@ Manager
 自定义模块
 ============
 
- ``miss`` 为自定义模块，功能为获取应用miss的日志信息，包括版本号、运行时长、会话数、当前流量、最大流量等信息。
+ ``miss`` 为 ``ansible`` 自定义模块，功能为获取应用miss的日志信息，包括版本号、运行时长、会话数、当前流量、最大流量等信息。
 
 支持的选项::
 
@@ -39,6 +39,8 @@ Manager
 
   # return current session count
   - miss: info=session
+  
+  ansible -i hosts miss-server -m miss -a 'info=uptime'
 
 
 miss 的日志格式为::
