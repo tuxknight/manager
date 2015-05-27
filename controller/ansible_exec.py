@@ -21,7 +21,10 @@ class Executor():
         self.module = module
         self.arguments = arguments
         self.remote_user = loginname
-        self.remote_pass = password
+        if loginname == 'root':
+            self.remote_pass = None
+        else:
+            self.remote_pass = password
         self.invetory = ansible.inventory.Inventory(host_list=[self.host])
 
 
