@@ -5,28 +5,31 @@
     <title></title>
 </head>
 <body>
-<a href='controller/index'>Home Page</a>
-<a href='controller/list'>Devices List</a>
-<a href='controller/add'>Add Devices</a>
-<a href='controller/device'>Manage Devices</a>
+<a href='/controller/index/'>Home Page</a><em>|</em>
+<a href='/controller/list/'>Devices List</a><em>|</em>
+<a href='/controller/add/'>Add Devices</a><em>|</em>
+<a href='/controller/device/'>Manage Devices</a><em>|</em>
+<a href='/controller/log/'>Logs</a><em>|</em>
+<a href='/admin'>Administration</a>
 {%if module == 'list' %}
-<table>
-	<th>Name</th>
-	<th>SN</th>
-	<th>IpAddr</th>
-	<th>PassWord</th>
-	<th>Notes</th>
+<table border='1'>
+<th>Name</th>
+<th>SN</th>
+<th>IpAddr</th>
+<th>LoginName</th>
+<th>PassWord</th>
+<th>Notes</th>
   {%for d in device_list %}
   <tr>
-	  <td>{{d.name}}</td>
-	  <td>{{d.sn}}</td>
-	  <td>{{d.ipaddr}}</td>
-	  <td>{{d.login}}</td>
-	  <td>{{d.password}}</td>
-	  <td>{{d.notes}}</td>
+  <td>{{d.name}}</td>
+  <td>{{d.sn}}</td>
+  <td>{{d.ipaddr}}</td>
+  <td>{{d.login}}</td>
+  <td>{{d.password}}</td>
+  <td>{{d.notes}}</td>
   </tr>
-  {%end for%}
+  {%endfor%}
 </table>
-{%end if%}
+{%endif%}
 </body>
 </html>
