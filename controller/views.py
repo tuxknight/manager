@@ -68,6 +68,10 @@ def commit(request):
     server = ansible_exec.device_info(id)
     login = server.login
     passwd = server.password
+    if len(login) == 0:
+        login = 'root'
+    if len(passwd) == 0:
+        passwd = None
     executor = ansible_exec.Executor(host, module, arguments, loginname=login, password=passwd)
     results = executor.doExec()
     dark = results['dark']
