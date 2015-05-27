@@ -22,7 +22,6 @@ EXAMPLES = '''
 # return the version of miss.out
 - miss: info=version
 '''
-#import commands
 import os
 import re
 
@@ -42,10 +41,10 @@ def get_information(info_type):
         return {'failed': True, info_type: 'log file does not exist.'}
     MISS = ('version', 'uptime', 'session', 'flowrate', 'maxflowrate')
     re_dict = {'version': re.compile(r'\bMISS[0-9a-zA-Z._]*'),
-                'uptime': re.compile(r'\buptime[:0-9a-zA-Z\s]*'),
-                'session': re.compile(r'current\ssessions\scount[:\s0-9]*'),
-                'flowrate': re.compile(r'current\sflowrate[:\s0-9]*[\[\]a-zA-Z]*'),
-                'maxflowrate': re.compile(r'max\sflowrate[:\s0-9]*[\[\]a-zA-Z]*')
+               'uptime': re.compile(r'\buptime[:0-9a-zA-Z\s]*'),
+               'session': re.compile(r'current\ssessions\scount[:\s0-9]*'),
+               'flowrate': re.compile(r'current\sflowrate[:\s0-9]*[\[\]a-zA-Z]*'),
+               'maxflowrate': re.compile(r'max\sflowrate[:\s0-9]*[\[\]a-zA-Z]*')
     }
 
     if info_type not in MISS:
@@ -64,7 +63,9 @@ def get_information(info_type):
 
 def main():
     module = AnsibleModule(
-            argument_spec = dict(info = dict(default='version',
+        argument_spec=dict(
+            info=dict(
+                default='version',
                 choices=['version', 'uptime', 'session', 'flowrate', 'maxflowrate']))
     )
     params = module.params

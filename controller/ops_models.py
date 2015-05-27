@@ -2,8 +2,13 @@
 # -*- coding:utf-8 -*-
 from controller.models import ManageLog
 from controller.models import Device
+from controller.models import Modules
+
 import time
 __author__ = 'alex'
+'''
+CRUD
+'''
 
 
 def operate_log(information):
@@ -15,7 +20,7 @@ def operate_log(information):
     managelog.save()
 
 
-def add_device(name, sn, ipaddr, login, password, notes):
+def add_device(name, sn, ipaddr, login, password, notes=''):
     device = Device()
     device.name = name
     device.sn = sn
@@ -24,3 +29,10 @@ def add_device(name, sn, ipaddr, login, password, notes):
     device.password = password
     device.notes = notes
     device.save()
+
+
+def add_modules(name, keys='', values=''):
+    module = Modules()
+    module.name = name
+    module.keys = keys
+    module.values = values

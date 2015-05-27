@@ -3,7 +3,7 @@
 
 __author__ = 'alex'
 
-list_template = '''
+head = '''
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -17,6 +17,9 @@ list_template = '''
 <a href='/controller/device/'>Manage Devices</a><em>|</em>
 <a href='/controller/log/'>Logs</a><em>|</em>
 <a href='/admin'>Administration</a>
+'''
+
+list_template = head + '''
 {%if module == 'list' %}
 <table border='1'>
 <th>Name</th>
@@ -40,23 +43,11 @@ list_template = '''
 </body>
 </html>'''
 
-add_template = '''
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<a href='/controller/index/'>Home Page</a><em>|</em>
-<a href='/controller/list/'>Devices List</a><em>|</em>
-<a href='/controller/add/'>Add Devices</a><em>|</em>
-<a href='/controller/device/'>Manage Devices</a><em>|</em>
-<a href='/controller/log/'>Logs</a><em>|</em>
-<a href='/admin'>Administration</a>
+add_template = head + '''
 {%if action == 'new'%}
 <form name='add_device' action='/controller/add/' method='post'>
 {%csrf_token%}
+<!-- avoid cross site request forgery using csrf_token-->
 <table border='1'>
 <tr><td>Name</td><td><input type='text' name='device_name' /></td></tr>
 <tr><td>Host</td><td><input type='text' name='host' /></td></tr>
@@ -83,23 +74,11 @@ add_template = '''
 </html>'''
 
 
-manage_template = '''
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<a href='/controller/index/'>Home Page</a><em>|</em>
-<a href='/controller/list/'>Devices List</a><em>|</em>
-<a href='/controller/add/'>Add Devices</a><em>|</em>
-<a href='/controller/device/'>Manage Devices</a><em>|</em>
-<a href='/controller/log/'>Logs</a><em>|</em>
-<a href='/admin'>Administration</a>
+manage_template = head + '''
 {%if module == 'device' %}
 <form name='exec_info' action='/controller/commit/' method='post'>
 {%csrf_token%}
+<!-- avoid cross site request forgery using csrf_token-->
 <table border='1'>
 <th colspan='2'>Please select your action:</th>
 <tr>
@@ -107,7 +86,7 @@ manage_template = '''
 <td>
 <select name='host'>
 {%for d in device_list%}
-  <option value='{{d.ipaddr}}'>{{d.ipaddr}}</option>
+  <option value='{{d.ipaddr}}|{{d.id}}'>{{d.ipaddr}} *{{d.login}} | {{d.name}} |{{d.id}}*</option>
 {%endfor%}
 </td>
 </tr>
@@ -141,24 +120,13 @@ manage_template = '''
 </body>
 </html>'''
 
-commit_template = '''
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<a href='/controller/index/'>Home Page</a><em>|</em>
-<a href='/controller/list/'>Devices List</a><em>|</em>
-<a href='/controller/add/'>Add Devices</a><em>|</em>
-<a href='/controller/device/'>Manage Devices</a><em>|</em>
-<a href='/controller/log/'>Logs</a><em>|</em>
-<a href='/admin'>Administration</a>
+commit_template = head + '''
 <br />
 {{host}}<em>|</em>
 {{module}}<em>|</em>
-{{arguments}}<br />
+{{arguments}}<em>|</em>
+{{login}}<em>|</em>
+{{passwd}}<br />
 
 <table border='2'>
 {%for k, v in messages%}
@@ -169,20 +137,7 @@ commit_template = '''
 </html>'''
 
 
-log_template = '''
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<a href='/controller/index/'>Home Page</a><em>|</em>
-<a href='/controller/list/'>Devices List</a><em>|</em>
-<a href='/controller/add/'>Add Devices</a><em>|</em>
-<a href='/controller/device/'>Manage Devices</a><em>|</em>
-<a href='/controller/log/'>Logs</a><em>|</em>
-<a href='/admin'>Administration</a>
+log_template = head + '''
 <table border='2'>
 {%for records in logs%}
 <tr><td>{{records.log_time}}</td><td>{{records.action}}</td></tr>
