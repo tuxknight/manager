@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Add Device{% endblock %}
+{% block content %}
+{%if action == 'new'%}
+<form name='add_device' action='/controller/add/' method='post'>
+{%csrf_token%}
+<!-- avoid cross site request forgery using csrf_token-->
+<table border='1'>
+<tr><td>Name</td><td><input type='text' name='device_name' /></td></tr>
+<tr><td>Host</td><td><input type='text' name='host' /></td></tr>
+<tr><td>SN</td><td><input type='text' name='sn' /></td></tr>
+<tr><td>Login User</td><td><input type='text' name='login' /></td></tr>
+<tr><td>Passwords</td><td><input type='text' name='password' /></td></tr>
+<tr><td>Notes</td><td><input type='text' name='notes' /></td></tr>
+<tr><td colspan='2'><input type='submit' name='add_submit' value='Submit' /></td></tr>
+</table>
+</form>
+{%else%}
+<table>
+<tr>
+<td>{{name}}</td>
+<td>{{host}}</td>
+<td>{{sn}}</td>
+<td>{{login}}</td>
+<td>{{password}}</td>
+<td>{{notes}}</td>
+</tr>
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+{% block content%}
+<br />
+{{host}}<em>|</em>
+{{module}}<em>|</em>
+{{arguments}}<em>|</em>
+{{login}}<em>|</em>
+{{passwd}}<br />
+
+<table border='2'>
+{%for k, v in messages%}
+<tr><td>{{k}}</td><td>{{v}}</td></tr>
+{%endfor%}
+</table>
+{% endblock %}

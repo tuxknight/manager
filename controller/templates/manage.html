@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Manage Device{% endblock %}
+{% block content %}
+{%if module == 'device' %}
+<form name='exec_info' action='/controller/commit/' method='post'>
+{%csrf_token%}
+<!-- avoid cross site request forgery using csrf_token-->
+<table border='1'>
+<th colspan='2'>Please select your action:</th>
+<tr>
+<td>Host:</td>
+<td>
+<select name='host'>
+{%for d in device_list%}
+  <option value='{{d.ipaddr}}|{{d.id}}'>{{d.ipaddr}} *{{d.login}} | {{d.name}} |{{d.id}}*</option>
+{%endfor%}
+</td>
+</tr>
+
+<tr>
+<td>Module:</td>
+<td>
+<select name='module'>
+{%for m in module_list%}
+  <option value='{{m.name}}'>{{m.name}}</option>
+{%endfor%}
+</td>
+</tr>
+
+<tr>
+<td>Arguments:</td>
+<td>
+<input type='text' name='arguments' />
+</td>
+</tr>
+
+<tr>
+<td colspan='2'>
+<input type='submit' name='execute' value='Submit' />
+</td>
+</tr>
+
+</table>
+</form>
+{%endif%}
+{% endblock %}

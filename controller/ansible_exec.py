@@ -8,8 +8,8 @@ import ansible.inventory
 from controller.models import Device
 
 
-def device_info(id):
-    record = Device.objects.filter(id=id)[0]
+def device_info(device_id):
+    record = Device.objects.filter(id=device_id)[0]
     return record
 
 
