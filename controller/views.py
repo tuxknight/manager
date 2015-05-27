@@ -68,7 +68,6 @@ def commit(request):
     server = ansible_exec.device_info(id)
     login = server.login
     passwd = server.password
-    # BUG: it will get *Authentication failure* result when exec ansible.runner.Runner whith root and password provided
     if len(login) == 0:
         login = 'root'
     if len(passwd) == 0:
