@@ -100,4 +100,5 @@ Django Administration 登录: admin/1917434419
 
 AWS EC2 主机
   52.25.151.1 root/chufuyuan ec2-user/780280897
+  
   52.11.97.205 root/chufuyuan ubuntu/chufuyuan
