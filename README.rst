@@ -85,10 +85,10 @@ miss 应用程序的目录树为::
      │   ├── run.log
      │   └── tsl.log
      └── shell
-         └── missMaintainer.sh
-             └── missMonitor.sh
-                 └── missStart.sh
-                     └── missStop.sh
+         ├── missMaintainer.sh
+         ├── missMonitor.sh
+         ├── missStart.sh
+         └── missStop.sh
     
 
 Demo
@@ -98,7 +98,7 @@ Demo 请访问 http://52.11.97.205:8080
 
 Demo应用部署在 ``AWS EC2`` 上，使用 ``uwsgi`` 提供http服务。
 
-Django Administration 登录: admin/1917434419
+Django Administration 登录: admin/********
 
 AWS EC2 主机
   52.25.151.1 root/chufuyuan ec2-user/780280897
